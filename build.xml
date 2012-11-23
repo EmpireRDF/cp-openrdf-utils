@@ -20,7 +20,7 @@
     </description>
 
     <!-- Global Properties -->
-    <property name="core.src" location="core/src" />
+    <property name="core.src" location="src/main/java" />
     <property name="core.lib" location="core/lib" />
     
     <property name="build" location="build" />
@@ -29,7 +29,7 @@
 	<property name="javadoc.dir" value="${dist}/javadocs"/>
 
     <property name="project.name" value="cp-common-openrdf" />
-    <property name="project.version" value="0.8" />
+    <property name="project.version" value="0.8.1" />
 
     <path id="project.class.path">
         <pathelement location="${core.lib}" />

@@ -56,8 +56,8 @@ public class TestJSONLD {
 	public void testSerialization() {
 		// Get data file
 		try {
-			FileInputStream fIn = new FileInputStream("test/data/test0.ttl");
-			String aExpectedSerialization = readFileAsString("test/data/test0.jsonld");
+			FileInputStream fIn = new FileInputStream( TestJSONLD.class.getResource("/data/test0.ttl").getPath() );
+			String aExpectedSerialization = readFileAsString( "/data/test0.jsonld" );
 			Graph graph = OpenRdfIO.readGraph(fIn, RDFFormat.TURTLE);
 			
 			// Once we have the data in the graph, serialize it to JSON-LD
@@ -82,7 +82,7 @@ public class TestJSONLD {
 	
 	private static String readFileAsString(String filePath) throws java.io.IOException {
 		StringBuffer fileData = new StringBuffer(1000);
-		BufferedReader reader = new BufferedReader(new FileReader(filePath));
+		BufferedReader reader = new BufferedReader(new FileReader(TestJSONLD.class.getResource(filePath).getPath()));
 		char[] buf = new char[1024];
 		int numRead=0;
 	
