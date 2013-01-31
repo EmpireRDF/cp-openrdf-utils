@@ -1,6 +1,8 @@
 package com.clarkparsia.openrdf.rio.jsonld;
 
-import java.io.IOException;
+import de.dfki.km.json.JSONUtils;
+import de.dfki.km.json.jsonld.JSONLDProcessor;
+import de.dfki.km.json.jsonld.JSONLDProcessor.Options;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -33,7 +35,7 @@ public class JSONLDWriter implements RDFWriter {
 	protected Map<String, String> mNamespaceTable;
 	
 	protected boolean mWritingStarted;
-	
+        
 	/*--------------*
 	 * Constructors *
 	 *--------------*/
@@ -94,11 +96,17 @@ public class JSONLDWriter implements RDFWriter {
 		}
 		
 		try {
-			// Dump serialization in writer.
-			mSerializer.toWriter(mWriter);
+                        Options options = new JSONLDProcessor.Options("");
+                        options.useRdfType = false;
+                        options.useNativeTypes = true;
+                        
+                        Object rval = new JSONLDProcessor(options).fromRDF(mSerializer.getStatements());
+                        rval = mSerializer.finalize(rval);
+                        mWriter.write(JSONUtils.toPrettyString(rval));
+                        // Dump serialization in writer.
 			mWriter.flush();
 		}
-		catch(IOException ioe) {
+		catch(Exception ioe) {
 			throw new RDFHandlerException(ioe);
 		}
 		finally {
@@ -120,7 +128,6 @@ public class JSONLDWriter implements RDFWriter {
 	@Override
 	public void handleNamespace(String prefix, String name)
 			throws RDFHandlerException {
-		
 		try {
 			if (!mNamespaceTable.containsKey(name)) {
 				
